@@ -26,7 +26,7 @@ CREATE TABLE Categories (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Product_Categories (
+CREATE TABLE ProductCategories (
     product_sku VARCHAR(36),
     category_id INT,
     PRIMARY KEY (product_sku, category_id),
