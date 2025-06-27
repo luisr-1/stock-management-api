@@ -1,15 +1,19 @@
 package com.mew.stockmanagementapi.services;
 
+import com.mew.stockmanagementapi.dto.PaginatedResponseDTO;
 import com.mew.stockmanagementapi.dto.ProductDTO;
 import com.mew.stockmanagementapi.mappers.ProductMapper;
 import com.mew.stockmanagementapi.model.Product;
 import com.mew.stockmanagementapi.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
@@ -38,9 +42,10 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public List<Product> getProducts(int page, int size) {
+    public PaginatedResponseDTO<Product> getProducts(int page, int size) {
         Pageable pageRequest = PageRequest.of(max(0, page), abs(size));
-        return productRepository.findAll(pageRequest);
+        Page<Product> productsPage = productRepository.findAll(pageRequest);
+        return new PaginatedResponseDTO<>(productsPage);
     }
 }
 
