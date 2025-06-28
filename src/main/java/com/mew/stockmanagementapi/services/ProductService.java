@@ -45,14 +45,11 @@ public class ProductService {
         final int LIMIT_PAGE_SIZE = 100;
         final int DEFAULT_PAGE_NUMBER = 0;
 
-        Pageable pageRequest;
-
-        if (page.isPresent() || size.isPresent()) {
-            int currentPage = page.map(p -> max(0, p)).orElse(DEFAULT_PAGE_NUMBER);
-            int pageSize = size.map(s -> min(LIMIT_PAGE_SIZE, abs(s))).orElse(DEFAULT_PAGE_SIZE);
-            pageRequest = PageRequest.of(currentPage, pageSize);
-        } else
-            pageRequest = Pageable.unpaged();
+        Pageable pageRequest = (page.isPresent() || size.isPresent()) ?
+                PageRequest.of(
+                        page.map(p -> max(0, p)).orElse(DEFAULT_PAGE_NUMBER),
+                        size.map(s -> min(LIMIT_PAGE_SIZE, abs(s))).orElse(DEFAULT_PAGE_SIZE)
+                ) : Pageable.unpaged();
 
         return new PaginatedResponseDTO<>(productRepository.findAll(pageRequest));
     }
