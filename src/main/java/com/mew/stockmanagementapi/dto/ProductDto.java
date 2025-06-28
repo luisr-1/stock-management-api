@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-public record ProductDTO(@NotNull @Positive Long sku,
+public record ProductDto(@NotNull @Positive Long sku,
                          @NotBlank String name,
                          @Positive @NotNull int price,
                          @Positive int dimensionsWidth,
